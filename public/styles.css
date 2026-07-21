@@ -1,0 +1,10 @@
+:root {
+  color-scheme: light dark;
+  --color-bg: #eeeeee;
+  --color-text: #111111;
+}
+
+[date-theme="dark"] {
+  --color-bg: #111111;
+  --color-text: #eeeeee;
+}
