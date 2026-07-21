@@ -1,10 +1,18 @@
 :root {
-  color-scheme: light dark;
   --color-bg: #eeeeee;
   --color-text: #111111;
+
+  color-scheme: light dark;
 }
 
-[date-theme="dark"] {
-  --color-bg: #111111;
-  --color-text: #eeeeee;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #111111;
+    --color-text: #eeeeee;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
