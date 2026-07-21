@@ -43,3 +43,10 @@ exports.updateMemberStatus = async function (member_id, new_status) {
     member_id,
   ]);
 };
+
+exports.createMessage = async function (member_id, title, message) {
+  await pool.query(
+    "INSERT INTO messages (member_id, title, message_body) VALUES ($1, $2, $3)",
+    [member_id, title, message],
+  );
+};
