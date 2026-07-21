@@ -10,4 +10,11 @@ router.get("/", function (req, res, next) {
   res.render("index", { user: req.user });
 });
 
+router.post("/inside-access", async (req, res, next) => {
+  try {
+  } catch (error) {
+    console.error("bad request", error);
+  }
+});
+
 module.exports = router;

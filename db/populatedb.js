@@ -1,5 +1,19 @@
 require("dotenv").config();
 const { Client } = require("pg");
+const crypto = require("crypto");
+
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
+
+const clubPassword = process.env.SECRET_CLUB_PASSWORD;
+const secureHashToStore = hashPassword(clubPassword);
+
+console.log("=== SETUP ===");
+console.log("Store this exact string in your database:\n", secureHashToStore);
+console.log("\n");
 
 const SQL = `
     CREATE TABLE IF NOT EXISTS members(
@@ -18,9 +32,14 @@ const SQL = `
         message_body TEXT NOT NULL,
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS inside_access(
+      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      key_name VARCHAR ( 50 ) UNIQUE NOT NULL,
+      password VARCHAR ( 255 )
+    );
     `;
 
-console.log(SQL);
 async function main() {
   const dbUrl = process.argv[2] || process.env.DEV_DB_URL;
 
