@@ -18,6 +18,13 @@
             <input id="password" name="password" type="password" autocomplete="new-password" />
             <button type="submit">Let Me In</button>
           </form>
+          <% if (locals.error) { %>
+            <div style="color: red;">
+              <%= error %>
+            </div>
+          <% } %>
+        <%} else {%>
+          <h2>You're an insider!</h2>
         <%}%>
       <%}%>
   </body>

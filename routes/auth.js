@@ -2,6 +2,7 @@ const { Router } = require("express");
 const db = require("../db/queries");
 const router = Router();
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -78,6 +79,41 @@ router.get("/logout", (req, res, next) => {
     }
     res.redirect("/");
   });
+});
+
+router.post("/inside-access", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+
+    const data = await db.getSuperSecretPassword("member_gate");
+    const storedHashString = data[0].password;
+    const [salt, originalHash] = storedHashString.split(":");
+
+    const hashedPasswordBuffer = crypto.scryptSync(req.body.password, salt, 64);
+    const originalHashBuffer = Buffer.from(originalHash, "hex");
+
+    let isMatch = false;
+    if (hashedPasswordBuffer.length === originalHashBuffer.length) {
+      isMatch = crypto.timingSafeEqual(
+        originalHashBuffer,
+        hashedPasswordBuffer,
+      );
+    }
+
+    if (isMatch) {
+      console.log("correct password");
+      await db.updateMemberStatus(req.user.id, true);
+      return res.redirect("/");
+    } else {
+      console.log("incorrect password");
+      res.redirect("/?error=bad_password");
+    }
+  } catch (error) {
+    console.error("bad request", error);
+    next(error);
+  }
 });
 
 module.exports = router;

@@ -7,14 +7,13 @@ router.get("/", function (req, res, next) {
     return res.render("home");
   }
   next();
-  res.render("index", { user: req.user });
-});
 
-router.post("/inside-access", async (req, res, next) => {
-  try {
-  } catch (error) {
-    console.error("bad request", error);
-  }
+  const errorMessage =
+    req.query.error === "bad_password"
+      ? "Incorrect secret password. Try again."
+      : null;
+
+  res.render("index", { user: req.user, error: errorMessage });
 });
 
 module.exports = router;

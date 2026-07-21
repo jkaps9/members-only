@@ -28,3 +28,18 @@ exports.insertMember = async function (
     [firstName, lastName, username, password],
   );
 };
+
+exports.getSuperSecretPassword = async function (key_name) {
+  const { rows } = await pool.query(
+    "SELECT * FROM inside_access WHERE key_name = $1",
+    [key_name],
+  );
+  return rows;
+};
+
+exports.updateMemberStatus = async function (member_id, new_status) {
+  await pool.query("UPDATE members SET membership_status = $1 WHERE id = $2", [
+    new_status,
+    member_id,
+  ]);
+};
