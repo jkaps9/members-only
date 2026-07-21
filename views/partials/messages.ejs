@@ -2,7 +2,9 @@
   <div class="container">
     <div class="row">
       <h2>Messages</h2>
+      <% if (locals.user) {%>
       <a href="/new/message">Add a message</a>
+      <%}%>
     </div>
     <ul class="message-list">
       <% if (locals.messages && locals.messages.length!==0) {%>
