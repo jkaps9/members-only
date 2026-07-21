@@ -16,24 +16,29 @@
           <a href="/logout">LOG OUT</a>
         </div>
         <% if (!user.membership_status) {%>
-        <h2>Get inside access</h2>
-        <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
         <form action="/inside-access" method="POST">
-          <label for="password">Super Secret Password</label>
-          <input id="password" name="password" type="password" autocomplete="new-password" />
-          <button type="submit">Let Me In</button>
+          <header>
+            <h2>Get inside access</h2>
+            <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
+          </header>
+          <main>
+            <label for="password">Super Secret Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" />
+            <% if (locals.error) {%>
+            <div style="color: red; margin-block-start: 1rem;">
+              <%= error %>
+            </div>
+            <%}%> 
+            <button type="submit">Let Me In</button>
+          </main>
         </form>
-        <% if (locals.error) {%>
-        <div style="color: red;">
-          <%= error %>
-        </div>
-        <%}%> 
+        
   <%} else {%>
-        <h2>You're an insider!</h2>
-        <%}%>
+            <h2>You're an insider!</h2>
+            <%}%>
   </div></section>
 <%- include("partials/messages.ejs") %>
-        <%}%>
+            <%}%>
   </main>
 </body>
 

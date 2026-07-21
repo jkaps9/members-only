@@ -118,6 +118,11 @@ form {
   min-width: 50vw;
   padding: 2rem 1rem;
   width: fit-content;
+
+  main {
+    display: grid;
+  }
+
   button {
     justify-self: end;
     margin-block-start: 1.5rem;
@@ -140,6 +145,8 @@ form {
 
 /* SPECIFICS */
 .message-list {
+  display: grid;
+  gap: 3rem;
   margin-block-start: 1.5rem;
 }
 

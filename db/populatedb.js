@@ -22,7 +22,8 @@ const SQL = `
         first_name VARCHAR ( 255 ) NOT NULL,
         last_name VARCHAR ( 255 ) NOT NULL,
         password VARCHAR ( 255 ),
-        membership_status BOOLEAN DEFAULT FALSE
+        membership_status BOOLEAN DEFAULT FALSE,
+        admin_status BOOLEAN DEFAULT FALSE
     );
     
     CREATE TABLE IF NOT EXISTS messages(
