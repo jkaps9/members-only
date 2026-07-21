@@ -1,7 +1,7 @@
 <header>
   <div class="container">
     <button id="theme-toggle" aria-label="Toggle dark/light mode">
-      Toggle Theme
+      Theme Toggle
     </button>
   </div>
 </header>
@@ -12,20 +12,21 @@
 
   // Determine the initial theme
   const getPreferredTheme = () => {
-    // 1. Check local storage
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme;
     }
-    // 2. Check system preference
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return systemPrefersDark ? 'dark' : 'light';
   };
 
-  // Apply and save the theme
+  // Apply theme, save it, AND update button text
   const setTheme = (theme) => {
     rootElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+
+    // Update the button text dynamically
+    toggleBtn.textContent = theme === 'dark' ? 'Go Light' : 'Go Dark';
   };
 
   // Initialize on page load
@@ -40,7 +41,6 @@
 
   // Watch for system theme changes in real-time
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    // Only auto-switch if the user hasn't set a manual preference
     if (!localStorage.getItem('theme')) {
       setTheme(e.matches ? 'dark' : 'light');
     }

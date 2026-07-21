@@ -118,6 +118,12 @@ section {
   margin-block: 2rem;
 }
 
+button {
+  background: none;
+  border: none;
+  color: currentColor;
+}
+
 button:hover {
   cursor: pointer;
 }
