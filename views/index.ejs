@@ -31,14 +31,34 @@
             <%}%> 
             <button type="submit">Let Me In</button>
           </main>
-        </form>
-        
-  <%} else {%>
-            <h2>You're an insider!</h2>
-            <%}%>
-  </div></section>
-<%- include("partials/messages.ejs") %>
-            <%}%>
+        </form> 
+      <%}%>
+
+            <% if (!user.admin_status) {%>
+            <form action="/admin-access" method="POST">
+              <header>
+                <h2>Get admin access</h2>
+                <p>Enter the admin password below to become an admin!</p>
+              </header>
+              <main>
+                <label for="password">Admin Password</label>
+                <input id="password" name="password" type="password" autocomplete="new-password" />
+                <% if (locals.error) {%>
+                <div style="color: red; margin-block-start: 1rem;">
+                  <%= error %>
+                </div>
+                <%}%> 
+            <button type="submit">Let Me In</button>
+          </main>
+        </form> 
+      <%} else {%>
+                <p>You're an admin Harry</p>
+                <%}%>
+
+      </div>
+    </section>
+    <%- include("partials/messages.ejs") %>
+                <%}%>
   </main>
 </body>
 

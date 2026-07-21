@@ -103,11 +103,42 @@ router.post("/inside-access", async (req, res, next) => {
     }
 
     if (isMatch) {
-      console.log("correct password");
       await db.updateMemberStatus(req.user.id, true);
       return res.redirect("/");
     } else {
-      console.log("incorrect password");
+      res.redirect("/?error=bad_password");
+    }
+  } catch (error) {
+    console.error("bad request", error);
+    next(error);
+  }
+});
+
+router.post("/admin-access", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+
+    const data = await db.getSuperSecretPassword("admin_gate");
+    const storedHashString = data[0].password;
+    const [salt, originalHash] = storedHashString.split(":");
+
+    const hashedPasswordBuffer = crypto.scryptSync(req.body.password, salt, 64);
+    const originalHashBuffer = Buffer.from(originalHash, "hex");
+
+    let isMatch = false;
+    if (hashedPasswordBuffer.length === originalHashBuffer.length) {
+      isMatch = crypto.timingSafeEqual(
+        originalHashBuffer,
+        hashedPasswordBuffer,
+      );
+    }
+
+    if (isMatch) {
+      await db.updateAdminStatus(req.user.id, true);
+      return res.redirect("/");
+    } else {
       res.redirect("/?error=bad_password");
     }
   } catch (error) {

@@ -11,8 +11,18 @@ function hashPassword(password) {
 const clubPassword = process.env.SECRET_CLUB_PASSWORD;
 const secureHashToStore = hashPassword(clubPassword);
 
+const adminPassword = process.env.SECRET_ADMIN_PASSWORD;
+const secureAdminHashToStore = hashPassword(adminPassword);
+
 console.log("=== SETUP ===");
-console.log("Store this exact string in your database:\n", secureHashToStore);
+console.log(
+  "Store this exact string in your database for member_gate:\n",
+  secureHashToStore,
+);
+console.log(
+  "Store this exact string in your database for admin_gate:\n",
+  secureAdminHashToStore,
+);
 console.log("\n");
 
 const SQL = `
