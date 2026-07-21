@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head.ejs") %>
-    <title>Index</title>
-  </head>
-  <body>
-    <% if (locals.user) {%>
-      <div class="row">
-          <h1>Welcome <%= user.first_name %></h1>
-          <a href="/logout">LOG OUT</a>
-        </div>
-        <% if (!user.membership_status) {%>
-          <h2>Get inside access</h2>
-          <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
-          <form action="/inside-access" method="POST">
-             <label for="password">Super Secret Password</label>
-            <input id="password" name="password" type="password" autocomplete="new-password" />
-            <button type="submit">Let Me In</button>
-          </form>
-          <% if (locals.error) { %>
-            <div style="color: red;">
-              <%= error %>
-            </div>
-          <% } %>
+
+<head>
+  <%- include("partials/head.ejs") %>
+  <title>Index</title>
+</head>
+
+<body>
+  <% if (locals.user) {%>
+  <div class="row">
+    <h1>Welcome <%= user.first_name %></h1>
+    <a href="/logout">LOG OUT</a>
+  </div>
+  <% if (!user.membership_status) {%>
+  <h2>Get inside access</h2>
+  <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
+  <form action="/inside-access" method="POST">
+    <label for="password">Super Secret Password</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" />
+    <button type="submit">Let Me In</button>
+  </form>
+  <% if (locals.error) {%>
+  <div style="color: red;">
+    <%= error %>
+  </div>
+  <%}%> 
         <%} else {%>
-          <h2>You're an insider!</h2>
-        <%}%>
-      <%}%>
-  </body>
+  <h2>You're an insider!</h2>
+  <%}%>
+</body>
+
 </html>
