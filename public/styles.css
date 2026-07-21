@@ -1,3 +1,14 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
 :root {
   --color-bg: #eeeeee;
   --color-text: #111111;
@@ -19,6 +30,18 @@ body {
   color: var(--color-text);
   font-family: "DM Sans", sans-serif;
   line-height: 1.6;
+  padding-inline: 5vw;
+  -webkit-font-smoothing: antialiased;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 h1,
@@ -60,4 +83,28 @@ h5 {
 h6 {
   font-size: 1.125rem;
   line-height: 1.4;
+}
+
+p {
+  max-width: 65ch;
+  text-wrap: pretty;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+}
+
+/* UTILITIES */
+.container {
+  margin-inline: auto;
+  max-width: 1024px;
+}
+
+.row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
