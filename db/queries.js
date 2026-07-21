@@ -50,3 +50,8 @@ exports.createMessage = async function (member_id, title, message) {
     [member_id, title, message],
   );
 };
+
+exports.getMessages = async function () {
+  const { rows } = await pool.query("SELECT * FROM messages LIMIT 100;");
+  return rows;
+};

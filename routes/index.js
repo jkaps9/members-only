@@ -1,11 +1,13 @@
 const { Router } = require("express");
-
+const db = require("../db/queries");
 const router = Router();
 
-router.get("/", function (req, res, next) {
+router.get("/", async (req, res, next) => {
   if (!req.user) {
     return res.render("home");
   }
+
+  const messages = await db.getMessages();
   next();
 
   const errorMessage =
@@ -13,7 +15,11 @@ router.get("/", function (req, res, next) {
       ? "Incorrect secret password. Try again."
       : null;
 
-  res.render("index", { user: req.user, error: errorMessage });
+  res.render("index", {
+    user: req.user,
+    error: errorMessage,
+    messages: messages,
+  });
 });
 
 module.exports = router;
