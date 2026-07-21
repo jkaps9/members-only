@@ -28,15 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 app.use("/", authRouter);
 
-app.get("/log-out", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
-
 app.listen(3000, (error) => {
   if (error) {
     throw error;
