@@ -13,9 +13,6 @@
   --color-bg: #eeeeee;
   --color-text: #111111;
   --color-border: #333333;
-  --base-font-size: 1rem;
-
-  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,12 +23,27 @@
   }
 }
 
+[data-theme="light"] {
+  --color-bg: #eeeeee;
+  --color-text: #111111;
+  --color-border: #333333;
+}
+
+[data-theme="dark"] {
+  --color-bg: #111111;
+  --color-text: #eeeeee;
+  --color-border: #cccccc;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: "DM Sans", sans-serif;
   line-height: 1.6;
   padding-inline: 5vw;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   -webkit-font-smoothing: antialiased;
 }
 

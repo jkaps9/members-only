@@ -1,0 +1,48 @@
+<header>
+  <div class="container">
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">
+      Toggle Theme
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById('theme-toggle');
+  const rootElement = document.documentElement;
+
+  // Determine the initial theme
+  const getPreferredTheme = () => {
+    // 1. Check local storage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme;
+    }
+    // 2. Check system preference
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return systemPrefersDark ? 'dark' : 'light';
+  };
+
+  // Apply and save the theme
+  const setTheme = (theme) => {
+    rootElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  };
+
+  // Initialize on page load
+  let currentTheme = getPreferredTheme();
+  setTheme(currentTheme);
+
+  // Handle manual toggle click
+  toggleBtn.addEventListener('click', () => {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(currentTheme);
+  });
+
+  // Watch for system theme changes in real-time
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    // Only auto-switch if the user hasn't set a manual preference
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+</script>
