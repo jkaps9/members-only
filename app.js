@@ -7,6 +7,7 @@ const session = require("express-session");
 const passport = require("passport");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const messageRouter = require("./routes/message");
 const assetsPath = path.join(__dirname, "public");
 
 const connectionString = process.env.DATABASE_URL || process.env.DEV_DB_URL;
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/", messageRouter);
 
 app.listen(3000, (error) => {
   if (error) {

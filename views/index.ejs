@@ -12,6 +12,7 @@
     <h1>Welcome <%= user.first_name %></h1>
     <a href="/logout">LOG OUT</a>
   </div>
+  <a href="/new/message">Add a message</a>
   <% if (!user.membership_status) {%>
   <h2>Get inside access</h2>
   <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
