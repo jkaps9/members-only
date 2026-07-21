@@ -65,7 +65,7 @@ router.post(
   }),
 );
 
-router.get("/signup", (req, res) => res.render("sign-up-form"));
+router.get("/signup", (req, res) => res.render("signup"));
 
 router.post("/signup", async (req, res, next) => {
   try {
