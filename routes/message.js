@@ -4,7 +4,7 @@ const router = Router();
 
 router.get("/new/message", (req, res, next) => {
   if (!req.user) {
-    return res.render("home");
+    return res.redirect("/");
   }
 
   res.render("createMessage");
@@ -13,7 +13,7 @@ router.get("/new/message", (req, res, next) => {
 router.post("/new/message", async (req, res, next) => {
   if (!req.user) {
     console.log("no user");
-    return res.render("home");
+    return res.redirect("/");
   }
 
   console.log("inserting message into db");
