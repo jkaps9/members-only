@@ -38,9 +38,13 @@
   <li class="message-list__item">
     <h3><%= message.title %></h3>
     <p><%= message.message_body %></p>
+    <% if (user.membership_status) {%>
+    <p><%= message.first_name %> <%= message.last_name %></p>
+    <p><%= message.created_at %></p>
+    <%}%>
   </li>
   <%})%>
-  <%}%>
+    <%}%>
   </ul>
   <%}%>
 

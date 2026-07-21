@@ -52,6 +52,8 @@ exports.createMessage = async function (member_id, title, message) {
 };
 
 exports.getMessages = async function () {
-  const { rows } = await pool.query("SELECT * FROM messages LIMIT 100;");
+  const { rows } = await pool.query(
+    "SELECT m.title, m.message_body, m.created_at, u.first_name, u.last_name FROM messages m LEFT JOIN members as u ON m.member_id = u.id LIMIT 100; ",
+  );
   return rows;
 };
