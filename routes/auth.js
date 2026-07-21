@@ -1,8 +1,16 @@
 const { Router } = require("express");
+const { Pool } = require("pg");
 const router = Router();
-
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+
+const connectionString = process.env.DATABASE_URL || process.env.DEV_DB_URL;
+
+const pool = new Pool({
+  connectionString: connectionString,
+  ssl: false,
+});
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -57,14 +65,19 @@ router.post(
   }),
 );
 
-router.get("/sign-up", (req, res) => res.render("sign-up-form"));
+router.get("/signup", (req, res) => res.render("sign-up-form"));
 
-router.post("/sign-up", async (req, res, next) => {
+router.post("/signup", async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     await pool.query(
-      "INSERT INTO members (username, password) VALUES ($1, $2)",
-      [req.body.username, hashedPassword],
+      "INSERT INTO members (first_name, last_name, username, password) VALUES ($1, $2, $3, $4)",
+      [
+        req.body.firstName,
+        req.body.lastName,
+        req.body.username,
+        hashedPassword,
+      ],
     );
     res.redirect("/");
   } catch (error) {
