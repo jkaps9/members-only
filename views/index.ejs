@@ -7,47 +7,57 @@
 </head>
 
 <body>
-  <% if (locals.user) {%>
-  <div class="row">
-    <h1>Welcome <%= user.first_name %></h1>
-    <a href="/logout">LOG OUT</a>
-  </div>
-  <a href="/new/message">Add a message</a>
-  <% if (!user.membership_status) {%>
-  <h2>Get inside access</h2>
-  <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
-  <form action="/inside-access" method="POST">
-    <label for="password">Super Secret Password</label>
-    <input id="password" name="password" type="password" autocomplete="new-password" />
-    <button type="submit">Let Me In</button>
-  </form>
-  <% if (locals.error) {%>
-  <div style="color: red;">
-    <%= error %>
-  </div>
-  <%}%> 
+  <main>
+    <section>
+      <div class="container">
+        <% if (locals.user) {%>
+        <div class="row">
+          <h1>Welcome <%= user.first_name %></h1>
+          <a href="/logout">LOG OUT</a>
+        </div>
+        <% if (!user.membership_status) {%>
+        <h2>Get inside access</h2>
+        <p>You can now create and see messages. If you want to see who wrote the messages you need to be an insider. Enter the super secret password below to get in!</p>
+        <form action="/inside-access" method="POST">
+          <label for="password">Super Secret Password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" />
+          <button type="submit">Let Me In</button>
+        </form>
+        <% if (locals.error) {%>
+        <div style="color: red;">
+          <%= error %>
+        </div>
+        <%}%> 
   <%} else {%>
-  <h2>You're an insider!</h2>
-  <%}%>
-
-  <h2>Messages</h2>
-
+        <h2>You're an insider!</h2>
+        <%}%>
+  </div></section>
+<section>
+  <div class="container">
+    <div class="row">
+      <h2>Messages</h2>
+      <a href="/new/message">Add a message</a>
+    </div>
 <ul class="message-list">
     <% if (messages && messages.length!==0) {%>
-  <% messages.forEach((message) => {%>
-  <li class="message-list__item">
-    <h3><%= message.title %></h3>
-    <p><%= message.message_body %></p>
-    <% if (user.membership_status) {%>
-    <p><%= message.first_name %> <%= message.last_name %></p>
-    <p><%= message.created_at %></p>
-    <%}%>
+        <% messages.forEach((message) => {%>
+        <li class="message-list__item">
+          <h3><%= message.title %></h3>
+          <p><%= message.message_body %></p>
+          <% if (user.membership_status) {%>
+          <div class="author row">
+            <p><%= message.first_name %> <%= message.last_name %></p>
+            <p><%= message.created_at %></p>
+          </div>
+          <%}%>
   </li>
   <%})%>
-    <%}%>
+          <%}%>
   </ul>
+  </div>
+</section>
   <%}%>
-
+  </main>
 </body>
 
 </html>
