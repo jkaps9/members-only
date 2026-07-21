@@ -1,24 +1,14 @@
 const { Router } = require("express");
-const { Pool } = require("pg");
+const db = require("../db/queries");
 const router = Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
-const connectionString = process.env.DATABASE_URL || process.env.DEV_DB_URL;
-
-const pool = new Pool({
-  connectionString: connectionString,
-  ssl: false,
-});
-
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const { rows } = await pool.query(
-        "SELECT * FROM members WHERE username = $1",
-        [username],
-      );
+      const rows = await db.getMemberByUsername(username);
       const user = rows[0];
 
       if (!user) {
@@ -41,9 +31,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM members WHERE id = $1", [
-      id,
-    ]);
+    const rows = await db.getMemberById(id);
     const user = rows[0];
 
     done(null, user);
@@ -70,14 +58,11 @@ router.get("/signup", (req, res) => res.render("signup"));
 router.post("/signup", async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await pool.query(
-      "INSERT INTO members (first_name, last_name, username, password) VALUES ($1, $2, $3, $4)",
-      [
-        req.body.firstName,
-        req.body.lastName,
-        req.body.username,
-        hashedPassword,
-      ],
+    await db.insertMember(
+      req.body.firstName,
+      req.body.lastName,
+      req.body.username,
+      hashedPassword,
     );
     res.redirect("/");
   } catch (error) {
