@@ -32,31 +32,8 @@
         <h2>You're an insider!</h2>
         <%}%>
   </div></section>
-<section>
-  <div class="container">
-    <div class="row">
-      <h2>Messages</h2>
-      <a href="/new/message">Add a message</a>
-    </div>
-<ul class="message-list">
-    <% if (messages && messages.length!==0) {%>
-        <% messages.forEach((message) => {%>
-        <li class="message-list__item">
-          <h3><%= message.title %></h3>
-          <p><%= message.message_body %></p>
-          <% if (user.membership_status) {%>
-          <div class="author row">
-            <p><%= message.first_name %> <%= message.last_name %></p>
-            <p><%= message.created_at %></p>
-          </div>
-          <%}%>
-  </li>
-  <%})%>
-          <%}%>
-  </ul>
-  </div>
-</section>
-  <%}%>
+<%- include("partials/messages.ejs") %>
+        <%}%>
   </main>
 </body>
 

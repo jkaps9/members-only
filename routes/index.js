@@ -3,11 +3,12 @@ const db = require("../db/queries");
 const router = Router();
 
 router.get("/", async (req, res, next) => {
+  const messages = await db.getMessages();
+
   if (!req.user) {
-    return res.render("home");
+    return res.render("home", { messages: messages });
   }
 
-  const messages = await db.getMessages();
   next();
 
   const errorMessage =
